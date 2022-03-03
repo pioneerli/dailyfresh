@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tinymce',
     'apps.user',
     'apps.cart',
     'apps.goods',
@@ -112,6 +113,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
+# django认证系统使用的模型类
+AUTH_USER_MODEL = 'user.User'  # python manage.py createsuper
 
 LANGUAGE_CODE = 'zh-hans'
 
@@ -129,3 +132,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILE_DIRS = os.path.join(BASE_DIR,STATIC_URL)
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advance',
+    'width': 600,
+    'height': 400,
+}
+
+
