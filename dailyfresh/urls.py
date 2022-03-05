@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.user.views import register,handler_register,index
+from apps.user.views import index,LoginView,RegisterView,ActiveView
+from django.urls import re_path
+
 
 urlpatterns = [
-    path(r'^admin/', admin.site.urls),
-    path(r'user/register',register,name='register'),
-    path(r'user/handler_register',handler_register,name='handler_register'),
+    path(r'admin/', admin.site.urls),
+    path(r'user/register',RegisterView.as_view(),name='register'),
+    re_path(r'user/active/(.*)',ActiveView.as_view(),name='active'),
+    path(r'user/login',LoginView.as_view(),name='login'),
     path(r'^',index,name='index'),
     # path(r'^search', include('haystack.urls')),  # 全文检索框架
     # path('order/',views.orderView.as_view()),
