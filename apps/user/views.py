@@ -30,17 +30,17 @@ class LoginView(View):
         password = request.POST.get('pwd')
         print(username, password)
         # 如果username或password有一个为空,all(username,password)返回False
-        if not all([username,password]):
-            return render(request,'login.html',{'errmsg': '数据不完整'})
+        if not all([username, password]):
+            return render(request, 'login.html', {'errmsg': '数据不完整'})
 
-        user_qs = User.objects.filter(username=username,password=password)
-        print(username,password)
+        user_qs = User.objects.filter(username=username, password=password)
+        print(username, password)
         if user_qs.exists():
             # 用户名密码正确
             if user_qs[0].is_active:
                 print('登录成功')
                 # 把用户session保存到redis服务器
-                login(request,user_qs[0])
+                login(request, user_qs[0])
                 return HttpResponseRedirect(reverse('index'))
             else:
                 # 用户未激活
@@ -113,3 +113,36 @@ class RegisterView(View):
         send_register_active_email.delay(email, username, user_token)
         # 返回应答,跳回登陆页面
         return render(request, 'login.html')
+
+
+# user/info
+class UserInfoView(View):
+    """
+    用户中心View
+    """
+    page = 'user'
+
+    def get(self, request):
+        return render(request, 'user_center_info.html', {'page': 'user'})
+
+
+# user/order
+class UserOrderView(View):
+    """
+    用户订单View
+    """
+    page = 'order'
+
+    def get(self, request):
+        return render(request, 'user_center_order.html', {'page': 'order'})
+
+
+# user/order
+class UserAddressView(View):
+    """
+    用户订单View
+    """
+    page = 'address'
+
+    def get(self, request):
+        return render(request, 'user_center_order.html', {'page': 'address'})

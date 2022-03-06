@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.user.views import index,LoginView,RegisterView,ActiveView
+from apps.user.views import index,LoginView,RegisterView,ActiveView,UserInfoView,UserAddressView,UserOrderView
 from django.urls import re_path
 
 
@@ -25,6 +25,8 @@ urlpatterns = [
     re_path(r'user/active/(.*)',ActiveView.as_view(),name='active'),
     path(r'user/login',LoginView.as_view(),name='login'),
     path(r'^',index,name='index'),
+    path('user/info',UserInfoView.as_view(),name='UserInfo'),
+    path('user/order',UserOrderView.as_view(),name='UserOrder'),
+    path('user/address',UserAddressView.as_view(),name='UserAddress'),
     # path(r'^search', include('haystack.urls')),  # 全文检索框架
-    # path('order/',views.orderView.as_view()),
 ]
