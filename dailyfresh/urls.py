@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from apps.user.views import index,LoginView,RegisterView,ActiveView,UserInfoView,UserAddressView,UserOrderView
+from apps.user.views import index,LoginView,RegisterView,ActiveView,\
+    UserInfoView,UserAddressView,UserOrderView,LoginOutView
 from django.urls import re_path
 
 
@@ -24,7 +25,8 @@ urlpatterns = [
     path(r'user/register',RegisterView.as_view(),name='register'),
     re_path(r'user/active/(.*)',ActiveView.as_view(),name='active'),
     path(r'user/login',LoginView.as_view(),name='login'),
-    path(r'^',index,name='index'),
+    path(r'user/logout',LoginOutView.as_view(),name='logout'),
+    path(r'^$',index,name='index'),
     path('user/info',UserInfoView.as_view(),name='UserInfo'),
     path('user/order',UserOrderView.as_view(),name='UserOrder'),
     path('user/address',UserAddressView.as_view(),name='UserAddress'),
