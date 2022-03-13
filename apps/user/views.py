@@ -11,7 +11,7 @@ import logging
 from celery_tasks.tasks import send_register_active_email
 from django.contrib.auth import login,logout
 from utils.mixin import LoginRequiredMixin
-from django_redis import get_redis_connection
+from django.core.cache import cache
 from apps.goods.models import GoodsSKU
 
 logging.basicConfig()
@@ -140,10 +140,12 @@ class UserInfoView(LoginRequiredMixin,View):
         is_auth = user.is_authenticated
         print(is_auth)
         address = Address.get_default_address(user)
-        redis_conn = get_redis_connection('default')
         user_history_sku_key = f'history_{user.id}'
-        # 获取用户最新浏览的5个商品的id
-        sku_ids = redis_conn.lrange(user_history_sku_key, 0, 4)
+        print(user_history_sku_key)
+        # 获取redis缓存中用户最新浏览的5个商品sku,没有获取到返回[]
+        user_history_id_values = cache.get(user_history_sku_key)
+        sku_ids = user_history_id_values[:5] if user_history_id_values else []
+        print(sku_ids)
         # 把获取到的sku_id 进行展示
         # history_sku_list = []
         # for s_id in sku_ids:
