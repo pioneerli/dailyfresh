@@ -10,6 +10,7 @@ class GoodsType(BaseModel):
     '''商品类型模型类'''
     name = models.CharField(max_length=20, verbose_name='种类名称')
     logo = models.CharField(max_length=20, verbose_name='标识')
+    image_url = models.URLField(max_length=200,blank=True,verbose_name='图片url')
     # image = models.ImageField(upload_to='type', verbose_name='商品类型图片')
 
     class Meta:
@@ -35,6 +36,7 @@ class GoodsSKU(BaseModel):
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='商品价格')
     unite = models.CharField(max_length=20, verbose_name='商品单位')
     # image = models.ImageField(upload_to='goods', verbose_name='商品图片')
+    image_url = models.URLField(max_length=200,blank=True,verbose_name='图片url')
     stock = models.IntegerField(default=1, verbose_name='商品库存')
     sales = models.IntegerField(default=0, verbose_name='商品销量')
     status = models.SmallIntegerField(default=1, choices=status_choices, verbose_name='商品状态')
@@ -79,6 +81,7 @@ class IndexGoodsBanner(BaseModel):
     '''首页轮播商品展示模型类'''
     sku = models.ForeignKey('GoodsSKU', verbose_name='商品',on_delete=models.CASCADE)
     # image = models.ImageField(upload_to='banner', verbose_name='图片')
+    image_url = models.URLField(max_length=200,blank=True,verbose_name='图片url')
     index = models.SmallIntegerField(default=0, verbose_name='展示顺序')  # 0 1 2 3
 
     class Meta:
@@ -107,15 +110,21 @@ class IndexTypeGoodsBanner(BaseModel):
         verbose_name = "主页分类展示商品"
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.sku.name
+
 
 class IndexPromotionBanner(BaseModel):
     '''首页促销活动模型类'''
     name = models.CharField(max_length=20, verbose_name='活动名称')
     url = models.CharField(max_length=256, verbose_name='活动链接')
-    image = models.ImageField(upload_to='banner', verbose_name='活动图片')
+    # image = models.ImageField(upload_to='banner', verbose_name='活动图片')
+    image_url = models.URLField(max_length=200,blank=True,verbose_name='促销商品图片url')
     index = models.SmallIntegerField(default=0, verbose_name='展示顺序')
 
     class Meta:
         db_table = 'df_index_promotion'
         verbose_name = "主页促销活动"
         verbose_name_plural = verbose_name
+    def __str__(self):
+        return self.name
