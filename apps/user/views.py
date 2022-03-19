@@ -12,6 +12,7 @@ from celery_tasks.tasks import send_register_active_email
 from django.contrib.auth import login,logout
 from utils.mixin import LoginRequiredMixin
 from django.core.cache import cache
+from django_redis import get_redis_connection
 from apps.goods.models import GoodsSKU
 
 logging.basicConfig()
@@ -47,7 +48,7 @@ class LoginView(View):
                 # 如果存在next, 则返回next字段的uri值
                 if request.GET.get('next'):
                     return HttpResponseRedirect(request.GET.get('next'))
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('goodsIndex'))
             else:
                 # 用户未激活
                 return render(request, 'login.html', {'errmsg': '账户未激活'})
@@ -142,17 +143,21 @@ class UserInfoView(LoginRequiredMixin,View):
         address = Address.get_default_address(user)
         user_history_sku_key = f'history_{user.id}'
         print(user_history_sku_key)
-        # 获取redis缓存中用户最新浏览的5个商品sku,没有获取到返回[]
-        user_history_id_values = cache.get(user_history_sku_key)
-        sku_ids = user_history_id_values[:5] if user_history_id_values else []
-        print(sku_ids)
-        # 把获取到的sku_id 进行展示
+        conn = get_redis_connection('default')
+        # 获取redis 链接使用 redis API 进行数据截取
+        sku_ids=conn.lrange(user_history_sku_key,0,4)
+        history_sku_list = [GoodsSKU.objects.get(id=s_id.decode()) for s_id in sku_ids]
+        # # 获取redis缓存中用户最新浏览的5个商品sku,没有获取到返回[]
+        # user_history_id_values = cache.get(user_history_sku_key)
+        # sku_ids = user_history_id_values[:5] if user_history_id_values else []
+        # print(sku_ids)
+        # # 把获取到的sku_id 进行展示
         # history_sku_list = []
         # for s_id in sku_ids:
         #     sku = GoodsSKU.objects.get(id=s_id)
         #     history_sku_list.append(sku)
-        # 使用列表生成式把 根据sku_id获取到的sku放入列表
-        history_sku_list = [GoodsSKU.objects.get(id=s_id) for s_id in sku_ids]
+        # # 使用列表生成式把 根据sku_id获取到的sku放入列表
+        # history_sku_list = [GoodsSKU.objects.get(id=s_id) for s_id in sku_ids]
 
         return render(request, 'user_center_info.html', {'page': 'user','user':user,'address':address,'sku_list':history_sku_list})
 

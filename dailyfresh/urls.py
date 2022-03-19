@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from apps.user.views import index,LoginView,RegisterView,ActiveView,\
     UserInfoView,UserAddressView,UserOrderView,LoginOutView
-from apps.goods.views import IndexView, GoodsDetailView
+from apps.goods.views import IndexView, GoodsDetailView, GoodsTest
 from django.urls import re_path
 
 
@@ -40,4 +40,5 @@ urlpatterns = [
     # goods相关url
     path(r'goods/index',IndexView.as_view(),name='goodsIndex'),
     re_path(r'goods/details/(.*)',GoodsDetailView.as_view(),name='goodsDetail'),
+    path('goods/test',GoodsTest.as_view(),name='goodsTest')
 ]
