@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.cart',
     'apps.goods',
     'apps.order',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -174,3 +175,18 @@ FDFS_CLIENT_CONF='./utils/fdfs/client.conf'
 
 # 设置fdfs存储服务器上nginx的IP和端口号
 FDFS_URL='http://172.16.179.131:22122/'
+
+
+# 配置全文搜索狂简的后端引擎为whoosh
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        #使用whoosh引擎
+        'ENGINE': 'haystack.backends.whoosh_cn_backend.WhooshEngine',
+        #索引文件路径
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+# 当更新数据时自动生成索引
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+# HAYSTACK_SITECONF = 'goods/goods'

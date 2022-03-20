@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from apps.user.views import index,LoginView,RegisterView,ActiveView,\
     UserInfoView,UserAddressView,UserOrderView,LoginOutView
-from apps.goods.views import IndexView, GoodsDetailView, GoodsTest
+from apps.goods.views import IndexView, GoodsDetailView, GoodsTest,GoodsListView
 from django.urls import re_path
 
 
@@ -40,5 +40,7 @@ urlpatterns = [
     # goods相关url
     path(r'goods/index',IndexView.as_view(),name='goodsIndex'),
     re_path(r'goods/details/(.*)',GoodsDetailView.as_view(),name='goodsDetail'),
-    path('goods/test',GoodsTest.as_view(),name='goodsTest')
+    re_path(r'goods/lists',GoodsListView.as_view(),name='goodsList'),
+    path('goods/test',GoodsTest.as_view(),name='goodsTest'),
+    path(r'search/', include('haystack.urls')),
 ]
