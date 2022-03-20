@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from apps.cart.views import CartAddView, CartInfoView, CartUpdateView
 from apps.user.views import index,LoginView,RegisterView,ActiveView,\
     UserInfoView,UserAddressView,UserOrderView,LoginOutView
 from apps.goods.views import IndexView, GoodsDetailView, GoodsTest,GoodsListView
@@ -43,4 +45,10 @@ urlpatterns = [
     re_path(r'goods/lists',GoodsListView.as_view(),name='goodsList'),
     path('goods/test',GoodsTest.as_view(),name='goodsTest'),
     path(r'search/', include('haystack.urls')),
+
+    # cart相关url
+    path(r'cart/add',CartAddView.as_view(),name='cartAdd'),
+    path(r'cart/info',CartInfoView.as_view(),name='cartInfo'),
+    path(r'cart/update',CartUpdateView.as_view(),name='cartUpdate'),
+
 ]
