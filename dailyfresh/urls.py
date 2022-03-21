@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from apps.cart.views import CartAddView, CartInfoView, CartUpdateView
+from apps.cart.views import CartAddView, CartInfoView, CartUpdateView, CartDeleteView
 from apps.user.views import index,LoginView,RegisterView,ActiveView,\
     UserInfoView,UserAddressView,UserOrderView,LoginOutView
 from apps.goods.views import IndexView, GoodsDetailView, GoodsTest,GoodsListView
@@ -50,5 +50,6 @@ urlpatterns = [
     path(r'cart/add',CartAddView.as_view(),name='cartAdd'),
     path(r'cart/info',CartInfoView.as_view(),name='cartInfo'),
     path(r'cart/update',CartUpdateView.as_view(),name='cartUpdate'),
+    path(r'cart/delete',CartDeleteView.as_view(),name='cartDelete'),
 
 ]

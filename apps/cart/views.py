@@ -6,6 +6,7 @@ from django.views.generic import View
 from utils.decorators import FunctionAsApiV2
 from django_redis import get_redis_connection
 from apps.goods.models import GoodsSKU
+from utils.validate import cart_info_validate
 
 
 class CartAddView(View):
@@ -24,13 +25,7 @@ class CartAddView(View):
             5、通过hlen返回商品条目数并返回
         """
 
-        # 1、校验添加的商品数量
-        if not self.request.user:
-            return JsonResponse({'res': 1, 'msg': '请先登录'})
-        try:
-            sku = GoodsSKU.objects.get(id=sku_id)
-        except GoodsSKU.DoesNotExist as e:
-            return JsonResponse({'res': 3, 'msg': '商品不存在'})
+        conn,sku,cart_key=cart_info_validate(self.request,sku_id)
 
         try:
             count = int(count)
@@ -40,8 +35,6 @@ class CartAddView(View):
 
         # 2、获取redis里面sku_id count数量,判断是否存在,存在则使用redis缓存里面的数量(商品数量=
         # count+hget(cart_key,sku_id))加上count,不存在数据则为count
-        conn = get_redis_connection('default')
-        cart_key = f'cart_{self.request.user.id}'
         sku_count = conn.hget(cart_key, sku_id)
         if sku_count:
             count += int(sku_count)
@@ -95,14 +88,7 @@ class CartUpdateView(View):
     @FunctionAsApiV2()
     def post(self, sku_id, count):
         # 1、校验添加的商品数量
-        if not self.request.user:
-            return JsonResponse({'res': 1, 'msg': '请先登录'})
-
-        try:
-            sku = GoodsSKU.objects.get(id=sku_id)
-        except GoodsSKU.DoesNotExist as e:
-            return JsonResponse({'res': 3, 'msg': '商品不存在'})
-
+        conn,sku,cart_key = cart_info_validate(self.request,sku_id)
         try:
             count = int(count)
         except Exception as e:
@@ -123,3 +109,17 @@ class CartUpdateView(View):
             total_count += int(i)
 
         return JsonResponse({'res': 5, 'total_count': total_count, 'message': '更新成功'})
+
+
+class CartDeleteView(View):
+    @FunctionAsApiV2()
+    def post(self,sku_id):
+        # 1、校验添加的商品数量
+        conn,sku,cart_key = cart_info_validate(self.request,sku_id)
+        conn.hdel(cart_key,sku_id)
+        sku_val_ls = conn.hvals(cart_key)
+        total_count = 0
+        for i in sku_val_ls:
+            total_count += int(i)
+
+        return JsonResponse({'res': 5, 'total_count': total_count, 'message': '删除成功'})
