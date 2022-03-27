@@ -81,6 +81,7 @@ class CartInfoView(View):
             total_price += sku_price_summary
 
         context = {'total_count': total_count, 'total_price': total_price, 'skus': skus}
+        print(context)
         return render(self.request, 'cart.html', context)
 
 

@@ -17,6 +17,7 @@ from utils.mixin import LoginRequiredMixin
 from django.core.cache import cache
 from django_redis import get_redis_connection
 from apps.goods.models import GoodsSKU
+from utils.decorators import FunctionAsApiV2
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -171,11 +172,11 @@ class UserOrderView(LoginRequiredMixin,View):
     用户订单View
     """
     '''用户中心-订单页'''
-
-    def get(self, request, page):
+    @FunctionAsApiV2()
+    def get(self, page=1):
         '''显示'''
         # 获取用户的订单信息
-        user = request.user
+        user = self.request.user
         orders = OrderInfo.objects.filter(user=user).order_by('-create_time')
 
         # 遍历获取订单商品的信息
@@ -231,7 +232,7 @@ class UserOrderView(LoginRequiredMixin,View):
                    'page': 'order'}
 
         # 使用模板
-        return render(request, 'user_center_order.html', context)
+        return render(self.request, 'user_center_order.html', context)
 
 
 # user/order

@@ -24,7 +24,7 @@
 								</ul>
 								{% endfor %}
 							</td>
-							<td width="15%">{{ order.total_price|add:order.transit_price }}(含运费:{{ order.transit_price }})元</td>
+							<td width="15%">{{ order.total_price|add:order.transit_price }}元 (含运费:{{ order.transit_price }}元) </td>
 							<td width="15%">{{ order.status_name }}</td>
 							<td width="15%"><a href="#" order_id="{{ order.order_id }}" status="{{ order.order_status }}" class="oper_btn">去付款</a></td>
 						</tr>
@@ -33,17 +33,17 @@
 				{% endfor %}
 				<div class="pagenation">
                     {% if order_page.has_previous_page %}
-					<a href="{% url 'userOrder' order_page.previous_page_number %}">上一页</a>
+					<a href="{% url 'UserOrder' order_page.previous_page_number %}">上一页</a>
                     {% endif %}
                     {% for pindex in pages %}
                         {% if pindex == order_page.number %}
-					        <a href="{% url 'userOrder' pindex %}" class="active">{{ pindex }}</a>
+					        <a href="{% url 'UserOrder' %}?page={{ pindex }}" class="active">{{ pindex }}</a>
                         {% else %}
-					        <a href="{% url 'userOrder' pindex %}">{{ pindex }}</a>
+					        <a href="{% url 'UserOrder' %}?page={{ pindex }}">{{ pindex }}</a>
                         {% endif %}
 					{% endfor %}
                     {% if order_page.has_next_page %}
-					<a href="{% url 'userOrder' order_page.next_page_number %}">下一页></a>
+					<a href="{% url 'UserOrder' order_page.next_page_number %}">下一页></a>
                     {% endif %}
 				</div>
 		</div>
@@ -57,9 +57,9 @@
         if (status == 1){
             $(this).text('去支付')
         }
-        else if (status == 4){
-            $(this).text('去评价')
-        }
+        {#else if (status == 4){#}
+        {#    $(this).text('去评价')#}
+        {# }#}
         else if (status == 5){
             $(this).text('已完成')
         }
@@ -79,30 +79,33 @@
             $.post('/order/pay', params, function (data) {
                 if (data.res == 3){
                     // 引导用户到支付页面
-                    window.open(data.pay_url)
+                    {#window.open(data.pay_url)#}
+                    alert(data.msg)
+                    // 刷新页面
+                    location.reload()
                     // 浏览器访问/order/check, 获取支付交易的结果
                     // ajax post 传递参数:order_id
-                    $.post('/order/check', params, function (data){
-                        if (data.res == 3){
-                            alert('支付成功')
-                            // 刷新页面
-                            location.reload()
-                        }
-                        else{
-                            alert(data.errmsg)
-                        }
-                    })
+                    {#$.post('/order/check', params, function (data){#}
+                    {#    if (data.res == 3){#}
+                    {#        alert('支付成功')#}
+                    {#        // 刷新页面#}
+                    {#        location.reload()#}
+                    {#    }#}
+                    {#    else{#}
+                    {#        alert(data.errmsg)#}
+                    {#    }#}
+                    {# })#}
                 }
                 else{
                     alert(data.errmsg)
                 }
             })
         }
-        else if (status == 4){
-            // 其他情况
-            // 跳转到评价页面
-            location.href = '/order/comment/'+order_id
-        }
+        {#else if (status == 4){#}
+        {#    // 其他情况#}
+        {#    // 跳转到评价页面#}
+        {#    location.href = '/order/comment/'+order_id#}
+        {# }#}
     })
     </script>
 {% endblock bottomfiles %}

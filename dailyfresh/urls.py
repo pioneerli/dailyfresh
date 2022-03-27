@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from apps.cart.views import CartAddView, CartInfoView, CartUpdateView, CartDeleteView
-from apps.order.views import OrderPlaceView, OrderCommitView
+from apps.order.views import OrderPlaceView, OrderCommitView, OrderPayView
 from apps.user.views import index,LoginView,RegisterView,ActiveView,\
     UserInfoView,UserAddressView,UserOrderView,LoginOutView
 from apps.goods.views import IndexView, GoodsDetailView, GoodsTest,GoodsListView
@@ -35,7 +35,7 @@ urlpatterns = [
     path(r'user/logout',LoginOutView.as_view(),name='logout'),
     path(r'index',index,name='index'),
     path('user/info',UserInfoView.as_view(),name='UserInfo'),
-    path('user/order',UserOrderView.as_view(),name='UserOrder'),
+    path(r'user/order',UserOrderView.as_view(),name='UserOrder'),
     path('user/address',UserAddressView.as_view(),name='UserAddress'),
 
     # path(r'^search', include('haystack.urls')),  # 全文检索框架
@@ -56,7 +56,7 @@ urlpatterns = [
     # order 相关url
     path(r'order/place',OrderPlaceView.as_view(),name='orderPlace'),
     path(r'order/commit',OrderCommitView.as_view(),name='orderCommit'),
-    path(r'order/place',OrderPlaceView.as_view(),name='orderPlace'),
+    path(r'order/pay',OrderPayView.as_view(),name='orderPay'),
 
 
 ]

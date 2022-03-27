@@ -62,10 +62,10 @@ class IndexView(View):
             conn = get_redis_connection('default')
             cart_key = 'cart_%d' % user.id
             cart_count = conn.hlen(cart_key)
-        #
-        # # 组织模板上下文
-        context.update(cart_count=cart_count)
 
+        # 组织模板上下文
+        context.update(cart_count=cart_count)
+        print(context)
         # 使用模板
         return render(request, 'index.html', context)
 
