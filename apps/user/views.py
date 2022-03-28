@@ -150,7 +150,11 @@ class UserInfoView(LoginRequiredMixin,View):
         conn = get_redis_connection('default')
         # 获取redis 链接使用 redis API 进行数据截取
         sku_ids=conn.lrange(user_history_sku_key,0,4)
-        history_sku_list = [GoodsSKU.objects.get(id=s_id.decode()) for s_id in sku_ids]
+        try:
+            history_sku_list = [GoodsSKU.objects.get(id=s_id.decode()) for s_id in sku_ids]
+        except GoodsSKU.DoesNotExist as e:
+            history_sku_list = []
+            logger.debug('未获取到历史浏览记录')
         # # 获取redis缓存中用户最新浏览的5个商品sku,没有获取到返回[]
         # user_history_id_values = cache.get(user_history_sku_key)
         # sku_ids = user_history_id_values[:5] if user_history_id_values else []

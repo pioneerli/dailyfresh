@@ -15,8 +15,8 @@
 				<li><a href="">首页</a></li>
 				<li class="interval">|</li>
 				<li><a href="">手机生鲜</a></li>
-				<li class="interval">|</li>
-				<li><a href="">抽奖</a></li>
+{#				<li class="interval">|</li>#}
+{#				<li><a href="">抽奖</a></li>#}
 			</ul>
 		</div>
 	</div>
@@ -24,7 +24,7 @@
 	<div class="center_con clearfix">
 		<ul class="subnav fl">
             {% for type in types %}
-			    <li><a href="{% url 'goodsList' %}" class="{{ type.logo }}">{{ type.name }}</a></li>
+			    <li><a href="{% url 'goodsList' %}?type_id={{ type.id }}" class="{{ type.logo }}">{{ type.name }}</a></li>
             {% endfor %}
 		</ul>
 		<div class="slide fl">
@@ -56,7 +56,7 @@
 				    <a href="{% url 'goodsDetail' banner.sku.id  %}">{{ banner.sku.name }}</a>
 				{% endfor %}
 			</div>
-			<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			<a href="{% url 'goodsList' %}?type_id={{ type.id }}" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">

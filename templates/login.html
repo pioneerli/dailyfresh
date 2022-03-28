@@ -15,7 +15,7 @@
 			<div class="login_form fr">
 				<div class="login_title clearfix">
 					<h1>用户登录</h1>
-					<a href="#">立即注册</a>
+					<a href="{% url 'register' %}">立即注册</a>
 				</div>
 				<div class="form_input">
                     {# 不填写action时,表单数据会往地址栏中的url提交数据 #}
@@ -28,7 +28,7 @@
 						<div class="more_input clearfix">
 							<input type="checkbox" name="">
 							<label>记住用户名</label>
-							<a href="#">忘记密码</a>
+{#							<a href="#">忘记密码</a>#}
 						</div>
 						<input type="submit" name="" value="登录" class="input_submit">
 					</form>
