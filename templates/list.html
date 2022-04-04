@@ -4,7 +4,7 @@
 	<div class="breadcrumb">
 		<a href="#">全部分类</a>
 		<span>></span>
-		<a href="#">{{ type.name }}</a>
+		<a href="{% url 'goodsList' %}?type_id={{ type.id }}">{{ type.name }}</a>
 	</div>
 
 	<div class="main_wrap clearfix">
