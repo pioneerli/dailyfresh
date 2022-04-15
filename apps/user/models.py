@@ -20,7 +20,7 @@ class Address(BaseModel):
 
     user = models.ForeignKey('User', verbose_name='所属账户', on_delete=models.CASCADE)
     receiver = models.CharField(max_length=20, verbose_name='收件人')
-    test = models.CharField(max_length=20, verbose_name='测试字段', blank=True, null=True)
+    # test = models.CharField(max_length=20, verbose_name='测试字段', blank=True, null=True)
     addr = models.CharField(max_length=256, verbose_name='收件地址')
     zip_code = models.CharField(max_length=6, null=True, verbose_name='邮政编码')
     phone = models.CharField(max_length=11, verbose_name='联系电话')
