@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from db.base_model import BaseModel
+
+
 # Create your models here.
 
 
@@ -13,15 +15,12 @@ class User(AbstractUser, BaseModel):
         verbose_name_plural = verbose_name
 
 
-
-
-
 class Address(BaseModel):
     '''地址模型类'''
 
-    user = models.ForeignKey('User', verbose_name='所属账户',on_delete=models.CASCADE)
+    user = models.ForeignKey('User', verbose_name='所属账户', on_delete=models.CASCADE)
     receiver = models.CharField(max_length=20, verbose_name='收件人')
-    test = models.CharField(max_length=20, verbose_name='测试字段',blank=True,null=True)
+    test = models.CharField(max_length=20, verbose_name='测试字段', blank=True, null=True)
     addr = models.CharField(max_length=256, verbose_name='收件地址')
     zip_code = models.CharField(max_length=6, null=True, verbose_name='邮政编码')
     phone = models.CharField(max_length=11, verbose_name='联系电话')
@@ -30,7 +29,7 @@ class Address(BaseModel):
     @staticmethod
     def get_default_address(user):
         try:
-            address = Address.objects.get(user=user,is_default=True)
+            address = Address.objects.get(user=user, is_default=True)
         except Exception as e:
             address = None
             print(f'error {e}')
@@ -40,3 +39,6 @@ class Address(BaseModel):
         db_table = 'df_address'
         verbose_name = '地址'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.addr

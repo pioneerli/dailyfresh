@@ -1,0 +1,82 @@
+/*弹框本身(大)*/ 
+.my-modal-alert .boxBodyBig{
+    width:496px;
+    height: 418px;
+}
+/*弹框本身(小)*/ 
+.my-modal-alert .boxBodySmall{
+    width:412px;
+    height: 418px;
+}
+/*弹框头*/
+.my-modal-alert .boxHeader{
+    background-color: #f6f6f6;
+    border-bottom: #e5e5e5 1px;
+    height: 48px;
+} 
+/*弹框标题*/ 
+.my-modal-alert .boxTitle{
+    background-color: #f6f6f6;
+    color:#333333;
+    font-family:"SimHei";
+    font-size: 16px;
+}
+/*弹框头部分右侧关闭按钮*/
+.my-modal-alert .boxClose{
+    
+}
+.my-modal-alert .boxClose:hover{
+    color: #ff7800;
+}
+/*弹框按钮的父级元素块*/
+.my-modal-alert .boxFooter{
+    margin: auto;
+    text-align: center;
+    padding:24px 15px 24px 15px;
+    margin:0px 15px 0px 15px;
+}
+/*弹框按钮*/
+.my-modal-alert .boxButton{
+    font-family:"SimHei";
+    background-color:#ff7800;
+    width: 70px;
+    height: 30px;
+    color:white;
+    text-align:center;
+    line-height: 1;
+}
+
+/*已下为选用*/
+/*弹框主题label框*/
+.my-modal-alert .boxLabel{
+    width:80px;
+    font-size: 14px; 
+    font-family:'SimHei';
+    color: #999999;
+    
+}
+/*文本框*/
+.my-modal-alert .boxInput{
+    width:176px;
+    font-size: 14px;
+    color: #333333;
+}
+/*纯文本*/
+.my-modal-alert .boxText{
+    color:#ff7800;
+    font-family:'SimHei';
+    font-size: 12px;
+}
+.my-modal-alert .boxTextarea{
+    font-size: 12px;
+}
+
+.my-modal-alert .modal-body{
+    width: 400px;
+    height: 100px;
+    text-align: center;
+}
+.my-modal-alert .modal_message{
+    margin-top: 20px;
+    
+}

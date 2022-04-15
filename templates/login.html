@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}天天生鲜-登录{% endblock title %}
+{% block topfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'js/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/demo.css' %}">
+{% endblock topfiles %}
 {% block header_con %}{% endblock header_con %}
 {% block search_bar %}{% endblock search_bar %}
 {% block body %}
@@ -37,4 +41,58 @@
 		</div>
 	</div>
     {{ errmsg }}
+    <div class='modal my-modal-alert' id='my-modal-alert'>
+            <div class='modal-dialog boxBodySmall'>
+                <div class='modal-content'>
+                    <div class='modal-header boxHeader' style="background-color: #528D17">
+                        <button type='button' class='close boxClose' data-dismiss='modal' id="close_modal" onclick="closeModal()">
+                            <span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span>
+                        </button>
+                        <!-- <h4 class='modal-title boxTitle' id='modal-title'></h4> -->
+                    </div>
+                    <div class='modal-body' id='modal-body-alert'>
+                        <p id='modal_message'></p>
+                        <!-- <span id='num'></span> -->
+                    </div>
+                    <!-- <div class='modal-footer boxFooter' id='modal-footer'>
+                        <button type='button' class='btn btn-default boxButton' data-dismiss='modal'>关闭</button>
+                        <button type='button' class='btn btn-primary boxButton'>保存</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
 {% endblock body %}
+{% block bottomfiles %}
+    <script src="{% static 'js/jquery/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script>
+        window.onload = function(){
+                showModal()
+            }
+            var clearFlag = 0;
+            var count = 2;//设置3秒后自动消失
+            var showModal = function(){
+                $("#my-modal-alert").toggle();//显示模态框
+
+                $("#modal_message").html("用户名:guest 密码:123456")
+                clearFlag = self.setInterval("autoClose()",1000);//每过一秒调用一次autoClose方法
+            }
+
+            var autoClose = function(){
+                if(count>0){
+                    // $("#num").html(count + "秒后窗口将自动关闭");
+                    count--;
+                }else if(count<=0){
+                    window.clearInterval(clearFlag);
+                    // $("#num").html("");
+                    $("#my-modal-alert").fadeOut("slow");
+                    {#count = 3;#}
+                    {#$("#my-modal-alert").toggle();#}
+                }
+            }
+
+            var closeModal = function(){
+                $("#my-modal-alert").fadeOut("slow");
+            }
+    </script>
+{% endblock bottomfiles %}

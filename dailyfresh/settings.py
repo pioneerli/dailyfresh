@@ -85,7 +85,7 @@ DATABASES = {
         'NAME': 'dailyfresh',
         'USER': 'root',
         'PASSWORD': 'LiJun123@',
-        'HOST': '124.221.137.216',
+        'HOST': '43.135.3.222',
         'PORT': 3306
     }
 }
@@ -152,7 +152,7 @@ EMAIL_FROM = '天天生鲜<15270203397@163.com>'
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://:123456@124.221.137.216:6379/9",
+        "LOCATION": "redis://:123456@43.135.3.222:6379/9",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
