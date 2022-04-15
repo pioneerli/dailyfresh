@@ -1,4 +1,4 @@
 *.pyc
 *.swp
 .idea/*
-*_initial.py
+#*_initial.py
